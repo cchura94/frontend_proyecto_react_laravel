@@ -1,13 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 
 const NavBar = () => {
     return (
         <>
-            <Link to="/">INICIO</Link> |
-            <Link to="/login">LOGIN</Link> |
-            <Link to="/registro">REGISTRO</Link> 
+            {routes.map(route => (
+                <NavLink to={route.to} style={({isActive}) => ({color: isActive?'red':'blue'})}>{route.text}</NavLink>
+            ))}
         </>
     )
 }
+
+const routes = []
+routes.push({ to: '/', text: 'INICIO ' })
+routes.push({ to: '/login', text: 'LOGIN ' })
+routes.push({ to: '/registro', text: 'REGISTRO ' })
 
 export default NavBar
