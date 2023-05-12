@@ -4,7 +4,7 @@ const NavBar = () => {
     return (
         <>
             {routes.map(route => (
-                <NavLink to={route.to} style={({isActive}) => ({color: isActive?'red':'blue'})}>{route.text}</NavLink>
+                <NavLink to={route.to} style={({isActive}) => ({color: isActive?'red':'blue'})} key={route.text}>{route.text}</NavLink>
             ))}
         </>
     )
