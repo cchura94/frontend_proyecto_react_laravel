@@ -14,5 +14,6 @@ const routes = []
 routes.push({ to: '/', text: 'INICIO ' })
 routes.push({ to: '/login', text: 'LOGIN ' })
 routes.push({ to: '/registro', text: 'REGISTRO ' })
+routes.push({ to: '/admin/categoria', text: 'CATEGORIA' })
 
 export default NavBar

@@ -34,6 +34,8 @@ const Login = () => {
 
             const { data } = await authService.loginConLaravel({ email: email, password: password }); //  loginUser({ email: email, password: password })
             console.log(data);
+            // guardar el token en LocalStorage
+            localStorage.setItem("access_token", data.access_token)
             
             navigate("/")
         } catch (error) {

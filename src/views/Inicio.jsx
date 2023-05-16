@@ -8,7 +8,7 @@ const Inicio = () => {
 
             <ul>
                 {categorias.map(categoria => (
-                    <li>
+                    <li key={categoria.slug}>
                         <Link to={`categoria/${categoria.slug}`}>{categoria.nombre}</Link>                        
                     </li>                                        
                 ))}
