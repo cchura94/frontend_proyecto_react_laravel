@@ -36,6 +36,7 @@ const Login = () => {
             console.log(data);
             // guardar el token en LocalStorage
             localStorage.setItem("access_token", data.access_token)
+            // localStorage.setItem("auth", JSON.stringify(data.usuario))
             
             navigate("/")
         } catch (error) {
