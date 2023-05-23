@@ -20,6 +20,10 @@ const Categoria = () => {
     }
 
     const cerrarModal = () => {
+        setCategoria({
+            "nombre": "",
+            "detalle": ""
+        })
         setIsModalOpen(false);
     }
 
@@ -32,26 +36,34 @@ const Categoria = () => {
         abrirModal(true)
     }
 
-
-
     React.useEffect(() => {
-        async function listarCategorias() {
-            const { data } = await categoriaService.listar()
-            setCategorias(data)
-        }
-
+        
         listarCategorias()
+
     }, [])
 
-    // funciones de js
-    const funGuardarCategoria = async (e) => {
-        e.preventDefault()
-        console.log(nombre)
-        const res = await categoriaService.guardar({ nombre, detalle })
-        console.log(res.data)
 
+    // funciones de 
+    
+    async function listarCategorias() {
         const { data } = await categoriaService.listar()
         setCategorias(data)
+    }
+
+    const funGuardarCategoria = async (e) => {
+        e.preventDefault()
+
+        if(categoria.id){
+            const datos = await categoriaService.modificar(categoria.id, categoria)
+
+        }else{
+            const res = await categoriaService.guardar(categoria)
+            console.log(res.data)
+
+        }
+        
+        cerrarModal()
+        listarCategorias()
     }
 
     const handleChangeCategoria = (e) => {
@@ -61,6 +73,15 @@ const Categoria = () => {
             ...prevState,
             [name]: value
         })))
+    }
+
+    const eliminarCategoria = async (categoria) => {
+        if(confirm("¿Esta seguro de eliminar la categoria?")) {
+            const el = await categoriaService.eliminar(categoria.id);
+            
+            listarCategorias()
+        }
+
     }
 
 
@@ -73,8 +94,6 @@ const Categoria = () => {
                 <div className="p-3">
 
                     <div className="overflow-x-auto">
-
-
 
                         <h1>{titulo}</h1>
 
@@ -98,7 +117,7 @@ const Categoria = () => {
                                         <td>{categoria.detalle}</td>
                                         <td>
                                             <button className='bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded mr-2' onClick={() => abrirModalEditar(categoria)}>editar</button>
-                                            <button className='bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mr-2'>eliminar</button>
+                                            <button className='bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded mr-2' onClick={() => eliminarCategoria(categoria)}>eliminar</button>
                                         </td>
                                     </tr>)
                                 )}
@@ -115,7 +134,7 @@ const Categoria = () => {
                     <div className='bg-white rounded-lg p-6 w-2/3 md:w-1/2 xl:w-1/3 relative'>
                         <h2 className='text-lg font-bold mb-4'>Categoria</h2>
 
-                        {JSON.stringify(categoria)}
+                        { /* JSON.stringify(categoria) */}
                         <form onSubmit={(e) => { funGuardarCategoria(e) }}>
                             <label className='mb-2 block'>Ingrese Nombre</label>
                             <input
