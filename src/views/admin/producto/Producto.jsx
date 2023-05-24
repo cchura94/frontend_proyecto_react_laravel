@@ -4,9 +4,10 @@ import productoService from "./../../../services/productoService"
 const Producto = () => {
     // estado o variables +hooks
     const [productos, setProductos] = useState([])
+    const [total, setTotal] = useState(0)
     // para paginacion
     const [page, setPage] = useState(1)
-    const [itemsPerPage, setItemsPerPage] = useState(2)
+    const [itemsPerPage, setItemsPerPage] = useState(5)
 
     useEffect(() => {
         listar()
@@ -15,8 +16,10 @@ const Producto = () => {
     // funciones
     const listar = async (nroPage) => {
         try {
-            const datos = await productoService.listar(nroPage)
+            setPage(nroPage)
+            const datos = await productoService.listar(nroPage, itemsPerPage)
             setProductos(datos.data.data)
+            setTotal(datos.data.total)
         } catch (error) {
             
         }
@@ -25,12 +28,12 @@ const Producto = () => {
     // calculo de indices de paginación
     const indiceUltimoItem = page * itemsPerPage
     const indicePrimerItem = indiceUltimoItem - itemsPerPage
-    const productosActuales = productos.slice(indicePrimerItem, indiceUltimoItem)
+    // const productosActuales = productos.slice(indicePrimerItem, indiceUltimoItem)
 
     // para cambiar página
     const paginate = (nroPagina) => { 
         listar(nroPagina)
-        setPage(nroPagina)
+        
     }
 
 
@@ -53,13 +56,13 @@ const Producto = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {productosActuales.map((producto) => (
+                        {productos.map((producto) => (
                             <tr key={producto.id}>
                                 <td className="py-4 px-6">{ producto.id }</td>
                                 <td>{ producto.nombre }</td>
                                 <td>{ producto.precio }</td>
                                 <td>{ producto.stock }</td>
-                                <td>{ producto.categoria_id }</td>
+                                <td>{ producto.categoria.nombre }</td>
                                 <td>{ producto.imagen }</td>
                             </tr>                        
 
@@ -78,9 +81,9 @@ const Producto = () => {
                             anterior
                         </button>
 
-                        {productos.length > itemsPerPage && (
+                        {total > itemsPerPage && (
                             <div className="flex">
-                                {Array.from({length: Math.ceil(productos.length / itemsPerPage)}).map((_, index) => (
+                                {Array.from({length: Math.ceil(total / itemsPerPage)}).map((_, index) => (
                                     <button
                                         key={index}
                                         onClick={() => paginate(index + 1)}
@@ -98,14 +101,14 @@ const Producto = () => {
                         <button
                             className="py-2 px-4 bg-gray-200 text-gray-500 rounded-r-md hover:bg-gray-300"
                             onClick={() => paginate(page + 1)}
-                            disabled={page == Math.ceil(productos.length / itemsPerPage)}
+                            disabled={page == Math.ceil(total / itemsPerPage)}
                                 >
                             siguiente
                         </button>
                     </nav>
 
                 </div>
-                { JSON.stringify(productos)}
+                { /* JSON.stringify(productos) */}
             </div>
         </div>
     );

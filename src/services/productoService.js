@@ -2,8 +2,8 @@ import api from "./api";
 
 const productoService = {
 
-    listar: (nroPage=1) => {
-        return api.get("/producto?page="+nroPage);
+    listar: (nroPage=1, limit=10) => {
+        return api.get(`/producto?page=${nroPage}&limit=${limit}`);
     },
     guardar: (datos) => {
         return api.post("/producto", datos);
