@@ -2,6 +2,7 @@ import AdminLayouts from "../layouts/AdminLayouts";
 import Registro from "../views/Registro";
 
 import Categoria from "../views/admin/Categoria";
+import Pedido from "../views/admin/pedido/Pedido";
 import Producto from "../views/admin/producto/Producto";
 
 const AdminRoutes = {
@@ -19,6 +20,10 @@ const AdminRoutes = {
         {
             path: 'producto',
             element: <Producto></Producto>
+        },
+        {
+            path: 'pedido',
+            element: <Pedido></Pedido>
         }
         
     ]    
