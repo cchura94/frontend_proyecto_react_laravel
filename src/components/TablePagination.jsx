@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const TablePagination = ({ columnas, datos, total, page, paginate }) => {
+const TablePagination = ({ columnas, datos, total, page, paginate, handleEdit, handleDelete }) => {
 
     const [itemsPerPage, setItemsPerPage] = useState(5)
 
@@ -10,7 +10,7 @@ const TablePagination = ({ columnas, datos, total, page, paginate }) => {
                 <thead>
                     <tr>
                         {columnas.map((columna, index) => (
-                            <th className="py-3 px-6 text-left">{columna.label}</th>
+                            <th className="py-3 px-6 text-left" key={index}>{columna.label}</th>
                         ))}
                     </tr>
                 </thead>
@@ -18,8 +18,12 @@ const TablePagination = ({ columnas, datos, total, page, paginate }) => {
                     {datos.map((data) => (
                         <tr key={data.id}>
                             {columnas.map((columna, index) => (
-                                <td className="py-4 px-6">{ eval('data.'+columna.key) }</td>
+                                <td className="py-4 px-6" key={index}>{ eval('data.'+columna.key) }</td>
                             ))}
+                            <td className="py-4 px-6">
+                                <button className="py-2 px-4 bg-blue-500 text-white hover:bg-blue-600 rounded" onClick={() => handleEdit(data)}>editar</button> 
+                                <button className="py-2 px-4 bg-red-500 text-white hover:bg-red-600 rounded" onClick={() => handleDelete(data)}>eliminar</button>    
+                            </td>
                         </tr>
                     ))}
                 </tbody>
