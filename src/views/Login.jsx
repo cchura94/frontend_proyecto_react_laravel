@@ -1,8 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import authService from "../services/authService"
-
+import useUser from "../hooks/useUser"
 
 const loginUser = (credenciales) => {
     /*
@@ -24,9 +24,15 @@ const loginUser = (credenciales) => {
 const Login = () => {
     const [email, setEmail] = useState()
     const [password, setClave] = useState()
-    const [ errores, setErrores ] = useState({})
+    const [errores, setErrores] = useState({})
+
+    const { isLogged, login } = useUser()
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isLogged) navigate("/admin/categoria")
+    })
 
     const funIngresar = async (e) => {
         e.preventDefault()
@@ -37,8 +43,9 @@ const Login = () => {
             // guardar el token en LocalStorage
             localStorage.setItem("access_token", data.access_token)
             // localStorage.setItem("auth", JSON.stringify(data.usuario))
-            
-            navigate("/")
+            login(data.access_token)
+
+            navigate("/admin/producto")
         } catch (error) {
             console.log(error.response.data)
             setErrores(error.response.data.errors)
@@ -48,13 +55,14 @@ const Login = () => {
 
     return (
         <>
-            <h1>Login</h1>
-            <form onSubmit={(e) => {funIngresar(e)}}>
+            {
+                /*<h1>Login</h1>
+            <form onSubmit={(e) => { funIngresar(e) }}>
 
                 <label>Correo: </label>
                 <input type="email" onChange={e => setEmail(e.target.value)} />
                 <span>{errores?.email}</span>
-                
+
                 <br />
                 <label>Contraseña: </label>
                 <input type="password" onChange={e => setClave(e.target.value)} />
@@ -63,30 +71,33 @@ const Login = () => {
                 <button type="submit">Ingresar</button>
 
             </form>
+            */}
 
             <main class="bg-white max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
-        <section>
-            <h3 class="font-bold text-2xl">Welcome to Startup</h3>
-            <p class="text-gray-600 pt-2">Sign in to your account.</p>
-        </section>
+                <section>
+                    <h3 class="font-bold text-2xl">Bienvenido</h3>
+                    <p class="text-gray-600 pt-2">Debes Ingresar tus credenciales</p>
+                </section>
 
-        <section class="mt-10">
-            <form class="flex flex-col" method="POST" action="#">
-                <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Email</label>
-                    <input type="text" id="email" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" />
-                </div>
-                <div class="mb-6 pt-3 rounded bg-gray-200">
-                    <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Password</label>
-                    <input type="password" id="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" />
-                </div>
-                <div class="flex justify-end">
-                    <a href="#" class="text-sm text-purple-600 hover:text-purple-700 hover:underline mb-6">Forgot your password?</a>
-                </div>
-                <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Sign In</button>
-            </form>
-        </section>
-    </main>
+                <section class="mt-10">
+                    <form class="flex flex-col" onSubmit={(e) => { funIngresar(e) }}>
+                        <div class="mb-6 pt-3 rounded bg-gray-200">
+                            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="email">Ingrese su Correo</label>
+                            <input type="text" id="email" onChange={e => setEmail(e.target.value)} class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" />
+                            <span>{errores?.email}</span>
+                        </div>
+                        <div class="mb-6 pt-3 rounded bg-gray-200">
+                            <label class="block text-gray-700 text-sm font-bold mb-2 ml-3" for="password">Contraseña</label>
+                            <input type="password" id="password" onChange={e => setClave(e.target.value)} class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-3 pb-3" />
+                            <span>{errores?.password}</span>
+                        </div>
+                        <div class="flex justify-end">
+                            <a href="#" class="text-sm text-purple-600 hover:text-purple-700 hover:underline mb-6">Forgot your password?</a>
+                        </div>
+                        <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Ingresar</button>
+                    </form>
+                </section>
+            </main>
         </>
     )
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Sidebar from './partials/Sidebar';
 import Header from './partials/Header';
@@ -8,11 +8,19 @@ import FilterButton from './partials/actions/FilterButton';
 import Datepicker from './partials/actions/Datepicker';
 
 import Banner from './partials/Banner';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import useUser from '../hooks/useUser';
 
 function AdminLayouts() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const {isLogged } = useUser()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!isLogged) navigate("/login")
+  }, [])
 
   return (
     <div className="flex h-screen overflow-hidden">

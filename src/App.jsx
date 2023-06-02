@@ -9,6 +9,7 @@ import './layouts/css/style.css';
 
 import './layouts/charts/ChartjsConfig';
 import Prueba from './views/admin/Prueba'
+import { UserContextProvider } from './context/UserContext';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -16,8 +17,13 @@ function App() {
   return (
     <>
       
+      <UserContextProvider>
 
-      <Routes />
+        <Routes />
+
+      </UserContextProvider>
+
+
 
       {
         /*

@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import categoriaService from './../../services/categoriaService';
+import Context from '../../context/UserContext';
 
 const Categoria = () => {
+    // hook useContext
+    const context = useContext(Context)
+    console.log(context)
     // estados o variables
     const [titulo, setTitulo] = React.useState('Gestion Categorias')
     const [categorias, setCategorias] = React.useState([])
