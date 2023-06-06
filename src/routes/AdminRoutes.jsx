@@ -3,6 +3,7 @@ import Registro from "../views/Registro";
 
 import Categoria from "../views/admin/Categoria";
 import Pedido from "../views/admin/pedido/Pedido";
+import PedidoNuevo from "../views/admin/pedido/PedidoNuevo";
 import Producto from "../views/admin/producto/Producto";
 
 const AdminRoutes = {
@@ -24,6 +25,10 @@ const AdminRoutes = {
         {
             path: 'pedido',
             element: <Pedido></Pedido>
+        },
+        {
+            path: 'pedido/nuevo',
+            element: <PedidoNuevo></PedidoNuevo>
         }
         
     ]    
