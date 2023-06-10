@@ -55,7 +55,7 @@ const Pedido = () => {
             
             <button className='bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 rounded mr-2' onClick={() => navigate(`/admin/pedido/nuevo`)}>Nuevo Pedido</button>
 
-                <TablePagination columnas={columnas} datos={pedidos} page={page} total={total} paginate={listar} handleEdit={editarModal} handleDelete={eliminarPedido}></TablePagination>
+                <TablePagination columnas={columnas} datos={pedidos} page={page} total={total} paginate={listar} handleShow={editarModal} handleDelete={eliminarPedido}></TablePagination>
 
             </div>
         </div>        

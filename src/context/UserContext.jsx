@@ -4,11 +4,7 @@ const Context = createContext({})
 
 export function UserContextProvider({ children }){
     
-    const [token, setToken] = useState(null)
-
-    useEffect(() => {
-        setToken(localStorage.getItem("access_token"))
-    }, [])
+    const [token, setToken] = useState(() => localStorage.getItem("access_token"))
 
     return (
         <Context.Provider value={{token, setToken}}>
